@@ -3,8 +3,6 @@
 Ovaj projekt predstavlja web aplikaciju za preporuku recepata temeljenu na graf bazi podataka **Neo4j**. 
 Aplikacija koristi hibridni sustav preporuka (Social & Content-based filtering).
 
-## Poveznica na repozitorij
-[OVDJE ZALIJEPI LINK NA SVOJ GITHUB]
 
 ## Tehnologije
 - **Baza podataka:** Neo4j (Graph Database)
