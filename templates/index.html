@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kuharica - Početna</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .recommendation-social { background-color: #f0fdf4; border-radius: 20px; border: 1px solid #dcfce7; }
+        .recommendation-content { background-color: #eff6ff; border-radius: 20px; border: 1px solid #dbeafe; }
+        .user-avatar { width: 50px; height: 50px; background: #0d6efd; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 10px; }
+        .btn-heart-fill { color: white; background: #ff4d4d; border: 1px solid #ff4d4d; }
+        .btn-heart-outline { color: #ff4d4d; border: 1px solid #ff4d4d; background: white; }
+    </style>
+</head>
+<body class="container py-5">
+
+    <header class="mb-5 d-flex justify-content-between align-items-center">
+        <h1 class="fw-bold">Pozdrav, {{ ime }}! 👋</h1>
+    </header>
+
+    <section class="mb-5">
+        <h4 class="fw-bold mb-3">Ljudi koje pratim</h4>
+        <div class="d-flex gap-3 overflow-auto pb-2">
+            {% for osoba in ljudi_koje_pratim %}
+            <div class="card shadow-sm border-0 p-3 text-center" style="min-width: 160px; border-radius: 15px;">
+                <div class="user-avatar">{{ osoba.ime[0] }}</div>
+                <h6 class="fw-bold mb-1">{{ osoba.ime }}</h6>
+                <p class="small text-muted">{{ osoba.broj_recepta }} lajkova</p>
+                <a href="/profil/{{ osoba.ime }}" class="btn btn-sm btn-outline-primary rounded-pill">Profil</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="row mb-5">
+        <div class="col-md-7">
+            {% if prep_prijatelji %}
+            <div class="recommendation-social p-4 h-100 shadow-sm">
+                <h5 class="text-success fw-bold mb-3">Preporuke prijatelja</h5>
+                <div class="row">
+                    {% for p in prep_prijatelji %}
+                    <div class="col-md-6 mb-2">
+                        <div class="card border-0 p-2 shadow-sm">
+                            <h6 class="mb-1 small fw-bold">{{ p.naslov }}</h6>
+                            <a href="/recept/{{ p.naslov }}" class="btn btn-sm btn-link p-0 text-start">Pogledaj</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-5">
+            {% if prep_sastojci %}
+            <div class="recommendation-content p-4 h-100 shadow-sm">
+                <h5 class="text-primary fw-bold mb-3">Slični okusi</h5>
+                {% for s in prep_sastojci %}
+                <div class="d-flex justify-content-between align-items-center mb-2 bg-white p-2 rounded shadow-sm">
+                    <span class="small fw-bold">{{ s.naslov }}</span>
+                    <a href="/recept/{{ s.naslov }}" class="btn btn-sm btn-primary py-0">Vidi</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <section class="mb-5">
+        <h4 class="fw-bold mb-3">Otkrij nove kuhare</h4>
+        <div class="row">
+            {% for osoba in prijedlozi_za_pracenje %}
+            <div class="col-md-2 mb-3 text-center">
+                <div class="p-3 bg-white shadow-sm rounded-4 border">
+                    <h6 class="fw-bold mb-2">{{ osoba.ime }}</h6>
+                    <div class="d-grid gap-1">
+                        <a href="/profil/{{ osoba.ime }}" class="btn btn-xs btn-outline-secondary py-0" style="font-size: 0.7rem;">Profil</a>
+                        <a href="/zaprati/{{ osoba.ime }}" class="btn btn-xs btn-primary py-0" style="font-size: 0.7rem;">Zaprati</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <h4 class="fw-bold mb-4">Svi recepti</h4>
+    <div class="row">
+        {% for r in recepti %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="fw-bold">{{ r.naslov }}</h5>
+                        <a href="/lajkaj/{{ r.naslov }}" class="btn btn-sm rounded-circle {% if r.naslov in lajkani_naslovi %}btn-heart-fill{% else %}btn-heart-outline{% endif %}">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+                    </div>
+                    <p class="small text-muted mb-3">{{ r.kuhinja }} | {{ r.vrijeme }} min</p>
+                    <a href="/recept/{{ r.naslov }}" class="btn btn-dark w-100 btn-sm">Detalji</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil: {{ stats['ime'] }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; font-size: 1.5rem; font-weight: bold;">
+                            {{ stats['ime'][0] }}
+                        </div>
+                        <h2 class="fw-bold mb-0">{{ stats['ime'] }}</h2>
+                    </div>
+                    {% if stats['ime'] != moje_ime %}
+                        {% if pratim %}
+                        <a href="/otprati/{{ stats['ime'] }}" class="btn btn-outline-danger px-4 rounded-pill">Otprati</a>
+                        {% else %}
+                        <a href="/zaprati/{{ stats['ime'] }}" class="btn btn-primary px-4 rounded-pill">Zaprati</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <div class="row text-center border-top pt-3">
+                    <div class="col-6 border-end">
+                        <p class="text-muted small mb-1 uppercase">Prati</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-1">
+                            {% for p in stats['imena_koje_prati'] if p %}
+                                <a href="/profil/{{ p }}" class="badge bg-light text-primary text-decoration-none border">{{ p }}</a>
+                            {% else %}
+                                <span class="text-muted small">0</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <p class="text-muted small mb-1 uppercase">Pratitelji</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-1">
+                            {% for p in stats['imena_pratitelja'] if p %}
+                                <a href="/profil/{{ p }}" class="badge bg-light text-success text-decoration-none border">{{ p }}</a>
+                            {% else %}
+                                <span class="text-muted small">0</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="fw-bold mb-3">Lajkani recepti</h4>
+            <div class="row">
+                {% for r in recepti %}
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm h-100 p-3">
+                        <h6 class="fw-bold mb-1">{{ r.naslov }}</h6>
+                        <small class="text-muted">{{ r.kuhinja }}</small>
+                        <a href="/recept/{{ r.naslov }}" class="stretched-link"></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <a href="/" class="btn btn-link mt-4 text-dark text-decoration-none">← Natrag na kuharicu</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  db:
+    image: neo4j:latest
+    container_name: recepti_db
+    ports:
+      - "7474:7474" # Web sučelje baze
+      - "7687:7687" # Bolt protokol za aplikaciju
+    environment:
+      NEO4J_AUTH: neo4j/lozinka123
